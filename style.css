@@ -1,0 +1,63 @@
+:root {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#oldeditor {
+    display: none;
+}
+
+#neweditor {
+    display: block;
+}
+
+body {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+    overflow-y: scroll;
+}
+
+#window {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+input, button {
+    padding: 2px;
+}
+
+#path {
+    width: 100%;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    min-height: 24px;
+}
+
+.upval {
+    width: 100%;
+    padding: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.row input:not([type="checkbox"]), textarea.inp {
+    border: 0px;
+    font-family: 'Courier New', Courier, monospace;
+    background: #7773;
+}
+
+textarea.inp {
+    resize: none;
+    overflow-y: hidden;
+    flex: 1;
+    min-height: 0;
+}
