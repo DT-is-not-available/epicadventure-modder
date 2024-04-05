@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Epic Adventure Mod Maker</title>
+	</head>
+	<body>
+		<script src="main.js"></script>
+		<p>Tip: text in uppercase is solid color, while lowercase text is gold.</p>
+		<h3>Generic Game Info</h3>
+		<div><b>Starting Layout</b></div><select id="Starting Layout">
+			<option value="Title">Title</option>
+			<option value="how do i do the thing">how do i do the thing</option>
+			<option value="Game Over">Game Over</option>
+			<option value="THE END">THE END</option>
+			<option value="Room-2">Room-2</option>
+			<option value="Room-1">Room-1</option>
+			<option value="Room1">Room1</option>
+			<option value="Room2">Room2</option>
+			<option value="Room3">Room3</option>
+			<option value="Room4">Room4</option>
+			<option value="Room5">Room5</option>
+			<option value="Room6">Room6</option>
+			<option value="Room7">Room7</option>
+			<option value="Room8">Room8</option>
+			<option value="Room9">Room9</option>
+			<option value="Room10">Room10</option>
+			<option value="Room11">Room11</option>
+			<option value="Room12">Room12</option>
+			<option value="Room13">Room13</option>
+			<option value="Room14">Room14</option>
+			<option value="Room15">Room15</option>
+			<option value="Room16">Room16</option>
+			<option value="Room17">Room17</option>
+			<option value="Room18">Room18</option>
+			<option value="Room19">Room19</option>
+			<option value="closet">closet</option>
+		</select><p></p>
+		<div><b>Viewport Width</b></div><input type="number" id="width" value="240" size=25></input><p></p>
+		<div><b>Viewport Height</b></div><input type="number" id="height" value="180" size=25></input><p></p>
+		<h3>Title Screen</h3>
+		<div><b>Game Title</b></div><input type="text" id="gameTitle" value="epic adventure of a person to a place that is very far away with a magic wizard guy that helps you on your journey" size=100></input><p></p>
+		<div><b>Text Above Title</b></div><input type="text" id="gameTitleAbove" value="THIS GROUP PRESENTS..." size=100></input><p></p>
+		<div><b>Press to start text</b></div><input type="text" id="gameTitleBelow" value="PRESS space TO START" size=100></input><p></p>
+		<div><b>Press to start text shadow</b></div><input type="text" id="gameTitleBelowShadow" value="SPACE   " size=100></input><p></p>
+		<h3>Shops</h3>
+		<p>Shop Data is stored as ITEM ID,price,DISPLAY NAME</p>
+		<p>You will notice some things have been shortened like Leather Armor to L. ARMOR</p>
+		<p>All item IDs must be in ALL CAPS</p>
+		<div><b>Shop 1 Items (Friendly Shopkeeper)</b><div></div><input type="text" id="shop1talk" value="HELLO, WELCOME TO MY shop. HOW CAN I HELP YOU TODAY?" size=53></input></div><textarea id="shop1" rows="3" style="resize: none;" cols="50">
+DAGGER,8,DAGGER
+PASSPORT,2,PASSPORT,true
+LEATHER ARMOR,15,L. ARMOR</textarea><p></p>
+		<div><b>Shop 2 Items (Cave Shopkeeper)</b><div></div><input type="text" id="shop2talk" value="HELLO... BUY SOMETHING AND LEAVE." size=53></input></div><textarea id="shop2" rows="3" style="resize: none;" cols="50">
+SWORD,50,SWORD
+HEALTH POTION,35,H. POTION
+IRON ARMOR,85,IRON ARMOR</textarea><p></p>
+		<div><b>Shop 3 Items (Goblin Camp Shopkeeper)</b><div></div><input type="text" id="shop3talk" value="HELLO... BUY SOMETHING AND LEAVE." size=53></input></div><textarea id="shop3" rows="3" style="resize: none;" cols="50">
+SWORD,50,SWORD
+HEALTH POTION,35,H. POTION
+IRON ARMOR,85,IRON ARMOR</textarea><p></p>
+		<h3>Result</h3>
+		<button onclick="playMod();">Recompile Mod</button><p></p>
+		<div>To play your mod, paste the game data below into the prompt <a target="epicadventure" href="play">here</a></div>
+		<div><b>Copy-Paste</b></div><textarea style="resize: none;" id="result" disabled="disabled" rows="25" cols="150">no changes made</textarea>
+	</body>
+</html>
