@@ -50,7 +50,7 @@ void function() {
     const shop1 = document.getElementById("shop1")
     shop1.addEventListener('change', function(){
         document.getElementById("result").innerText = "please recompile"
-        project.layouts[4].layers[0].instances[5].instanceVariables[0].value = shop1.value.replace(/\n/g, ";");
+        project.layouts[4].layers[0].instances[5].instanceVariables[0].value = shop1.innerText.replace(/\n/g, ";");
     })
 
     const shop1talk = document.getElementById("shop1talk")
@@ -62,7 +62,7 @@ void function() {
     const shop2 = document.getElementById("shop2")
     shop2.addEventListener('change', function(){
         document.getElementById("result").innerText = "please recompile"
-        project.layouts[5].layers[0].instances[5].instanceVariables[0].value = shop2.value.replace(/\n/g, ";");
+        project.layouts[5].layers[0].instances[5].instanceVariables[0].value = shop2.innerText.replace(/\n/g, ";");
     })
 
     const shop2talk = document.getElementById("shop2talk")
@@ -74,7 +74,7 @@ void function() {
     const shop3 = document.getElementById("shop3")
     shop3.addEventListener('change', function(){
         document.getElementById("result").innerText = "please recompile"
-        project.layouts[6].layers[0].instances[5].instanceVariables[0] = shop3.value.replace(/\n/g, ";");
+        project.layouts[6].layers[0].instances[5].instanceVariables[0] = shop3.innerText.replace(/\n/g, ";");
     })
 
     const shop3talk = document.getElementById("shop3talk")
@@ -100,11 +100,11 @@ void function() {
         startingLayout.value = project.startingLayout
         width.value = project.viewportWidth
         height.value = project.viewportHeight
-        shop1.value = project.layouts[4].layers[0].instances[5].instanceVariables[0].value.replace(/;/g, "\n")
+        shop1.innerText = project.layouts[4].layers[0].instances[5].instanceVariables[0].value.replace(/;/g, "\n")
         shop1talk.value = project.layouts[4].layers[0].instances[4].instanceVariables[0].value
-        shop2.value = project.layouts[5].layers[0].instances[5].instanceVariables[0].value.replace(/;/g, "\n")
+        shop2.innerText = project.layouts[5].layers[0].instances[5].instanceVariables[0].value.replace(/;/g, "\n")
         shop2talk.value = project.layouts[5].layers[0].instances[4].instanceVariables[0].value
-        shop3.value = project.layouts[6].layers[0].instances[5].instanceVariables[0].value.replace(/;/g, "\n")
+        shop3.innerText = project.layouts[6].layers[0].instances[5].instanceVariables[0].value.replace(/;/g, "\n")
         shop3talk.value = project.layouts[6].layers[0].instances[4].instanceVariables[0].value
     }
 

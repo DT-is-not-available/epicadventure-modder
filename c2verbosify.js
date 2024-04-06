@@ -123,11 +123,11 @@ function forceEntries(obj) {
 function searchV(obj, value, arrayform=false, path="") {
     let results = []
     for (const [k, v] of forceEntries(obj)) {
-        const np = (path+"/"+k)
+        const np = (path+"."+k)
         if (typeof v === "object" && v != null) results.push(...searchV(v, value, arrayform, np))
         if (v === value) {
             if (arrayform) {
-                const a = np.split("/")
+                const a = np.split(".")
                 a.shift()
                 results.push({[a]:v})
             } else results.push({[np]:v})
@@ -138,11 +138,11 @@ function searchV(obj, value, arrayform=false, path="") {
 function searchK(obj, value, arrayform=false, path="") {
     let results = []
     for (const [k, v] of forceEntries(obj)) {
-        const np = (path+"/"+k)
+        const np = (path+"."+k)
         if (typeof v === "object" && v != null) results.push(...searchK(v, value, arrayform, np))
         if (k === value) {
             if (arrayform) {
-                const a = np.split("/")
+                const a = np.split(".")
                 a.shift()
                 results.push({[a]:v})
             } else results.push({[np]:v})

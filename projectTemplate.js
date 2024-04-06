@@ -48,11 +48,6 @@ const instance = {
         effects: 12,
         $effects: [effect],
         tilemapProperties: 13,
-        $tilemapProperties: {
-            width: 0,
-            height: 1,
-            data: 2,
-        }
     },
     objectType: 1,
     UID: 2,
