@@ -87,25 +87,4 @@ void function() {
     }
     window.playMod = playMod
 
-    window.oldeditorHandler = function(p) {
-        if (p) {
-            project = p
-            window.project = p
-        }
-        gameTitle.value = project.layouts[1].layers[1].instances[0].instanceVariables[0].value
-        gameTitle.value = project.layouts[1].layers[1].instances[1].instanceVariables[0].value
-        gameTitleAbove.value = project.layouts[1].layers[1].instances[2].pluginProperties[3]
-        gameTitleBelow.value = project.layouts[1].layers[1].instances[4].pluginProperties[3]
-        gameTitleBelowShadow.value = project.layouts[1].layers[1].instances[3].pluginProperties[3]
-        startingLayout.value = project.startingLayout
-        width.value = project.viewportWidth
-        height.value = project.viewportHeight
-        shop1.innerText = project.layouts[4].layers[0].instances[5].instanceVariables[0].value.replace(/;/g, "\n")
-        shop1talk.value = project.layouts[4].layers[0].instances[4].instanceVariables[0].value
-        shop2.innerText = project.layouts[5].layers[0].instances[5].instanceVariables[0].value.replace(/;/g, "\n")
-        shop2talk.value = project.layouts[5].layers[0].instances[4].instanceVariables[0].value
-        shop3.innerText = project.layouts[6].layers[0].instances[5].instanceVariables[0].value.replace(/;/g, "\n")
-        shop3talk.value = project.layouts[6].layers[0].instances[4].instanceVariables[0].value
-    }
-
 } ()

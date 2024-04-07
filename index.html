@@ -7,13 +7,9 @@
 	<body>
 		<h1>EpicAdventure Modder</h1>
 		<h3>A general-purpose tool for editing construct 2 data files</h3>
-		<p>Editor type <select id="EDITTYPE" onchange="SWAP()">
-			<option value="1">New Editor</option>
-			<option value="0">Old Editor</option>
-		</select></p>
 		<div id="neweditor">
 			<p class="row"><button onclick="copyMod();">Copy mod data</button> <button onclick="pasteMod();">Paste mod data</button></p>
-			<p>To play your mod, paste the game data below into the prompt <a target="epicadventure" href="play">here</a></p>
+			<p>To play your mod in epic adventure, paste the game data below into the prompt <a target="epicadventure" href="play">here</a></p>
 			<p><input id="path" type="text"></p>
 			<p><div id="window"></div></p>
 		</div>
@@ -78,6 +74,7 @@ IRON ARMOR,85,IRON ARMOR</textarea><p></p>
 			<div><b>Copy-Paste</b></div><textarea style="resize: none; width: 100%;" id="result" disabled="disabled" rows="25">no changes made</textarea>
 		</div>
 		<script src="c2verbosify.js"></script>
+		<script src="epicproject.js"></script>
 		<script src="projectTemplate.js"></script>
 		<script src="main.js"></script>
 		<script src="oldeditor.js"></script>

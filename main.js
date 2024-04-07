@@ -5,7 +5,6 @@ void async function() {
 			fetch(url).then(res => res.json()).then(data => {
 				let project = verbosify(data.project, projectTemplate, preserveUnused)
 				resolve(project)
-				oldeditorHandler(project)
 			})
 		})
 	}
@@ -141,18 +140,6 @@ void async function() {
 		} catch(e) {
 			console.error(e)
 			alert("Invalid data, did not load")
-		}
-	}
-
-	window.SWAP = function() {
-		if (document.getElementById("EDITTYPE").value == "0") {
-			document.getElementById("oldeditor").style.display = "block"
-			document.getElementById("neweditor").style.display = "none"
-			oldeditorHandler()
-		} else {
-			document.getElementById("oldeditor").style.display = "none"
-			document.getElementById("neweditor").style.display = "block"
-			autoBuildTree()
 		}
 	}
 
