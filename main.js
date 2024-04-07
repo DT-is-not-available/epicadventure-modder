@@ -4,7 +4,7 @@ void async function() {
 		return new Promise(resolve => {
 			fetch(url).then(res => res.json()).then(data => {
 				let project = verbosify(data.project, projectTemplate, preserveUnused)
-				resolve(project)
+				resolve(new C2Project(data))
 			})
 		})
 	}
@@ -104,13 +104,32 @@ void async function() {
 					wrapper.append(inp)
 				} break;
 				case "object": {
-					const inp = document.createElement("button")
-					inp.innerText = "{...}"
-					inp.addEventListener("click", function() {
-						pathinp.value += "."+k
-						autoBuildTree()
-					})
-					wrapper.append(inp)
+					switch (v.constructor) {
+						case C2IndexOf: {
+							const inp = document.createElement("select")
+							for (let i = 0; i < v.list.length; i++) {
+								const option = document.createElement("option")
+								option.value = i
+								option.innerText = v.list[i].toString()
+								inp.append(option)
+							}
+							inp.value = v.flatten()
+							inp.addEventListener("change", function() {
+								v.value = v.list[inp.value]
+								autoBuildTree()
+							})
+							wrapper.append(inp)
+						} break;
+						default: {
+							const inp = document.createElement("button")
+							inp.innerText = v.toString()
+							inp.addEventListener("click", function() {
+								pathinp.value += "."+k
+								autoBuildTree()
+							})
+							wrapper.append(inp)
+						} break;
+					}
 				} break;
 				case "array": {
 					const inp = document.createElement("button")
@@ -127,14 +146,14 @@ void async function() {
 	}
 
 	window.copyMod = function() {
-		navigator.clipboard.writeText(JSON.stringify({project:deverbosify(project, projectTemplate)}))
+		navigator.clipboard.writeText(JSON.stringify(project.flatten()))
 		alert("Copied!")
 	}
 
 	window.pasteMod = function() {
 		let p = prompt("Input valid data.js data")
 		try {
-			project = verbosify(JSON.parse(p).project, projectTemplate, true)
+			project = new C2Project(JSON.parse(p))
 			pathinp.value = ""
 			autoBuildTree()
 		} catch(e) {
