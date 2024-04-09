@@ -4,7 +4,7 @@ void async function() {
 		return new Promise(resolve => {
 			fetch(url).then(res => res.json()).then(data => {
 				let project = verbosify(data.project, projectTemplate, preserveUnused)
-				resolve(new C2Project(data))
+				resolve(new C2Project(data, url))
 			})
 		})
 	}
@@ -24,7 +24,7 @@ void async function() {
 
 	function autoBuildTree() {
 		if (pathinp.value.length == 0) {
-			buildTree(project, document.getElementById("window"))
+			makeEditor(project, document.getElementById("window"))
 		} else {
 			const path = pathinp.value.replace(/^\./,"").split(".")
 			let current = project
@@ -41,7 +41,7 @@ void async function() {
 						document.getElementById("window").innerText = "That path points to a "+(typeof current)+", go up a layer"
 					}
 				} else {
-					buildTree(current, document.getElementById("window"))
+					makeEditor(current, document.getElementById("window"))
 					const upval = document.createElement("button")
 					upval.classList.add("upval")
 					upval.addEventListener("click", function() {
@@ -53,6 +53,7 @@ void async function() {
 				}
 			} catch (e) {
 				document.getElementById("window").innerText = "That path is invalid"
+				console.warn(e)
 			}
 		}
 	}
@@ -62,8 +63,22 @@ void async function() {
 		inp.style.height = (inp.scrollHeight) + "px";
 	}
 
-	function buildTree(obj, outer) {
+	function makeEditor(obj, outer) {
 		outer.innerHTML = ""
+		switch (obj.constructor) {
+			case C2Texture: {
+				const img = document.createElement("img")
+				img.src = project.resolve(obj.url)
+				outer.append(img)
+				buildTree(obj, outer)
+			} break;
+			default: {
+				buildTree(obj, outer)
+			} break;
+		}
+	}
+
+	function buildTree(obj, outer) {
 		for (const [k, v] of Object.entries(obj)) {
 			const wrapper = document.createElement("div")
 			wrapper.classList.add("row")
@@ -119,6 +134,22 @@ void async function() {
 								autoBuildTree()
 							})
 							wrapper.append(inp)
+						} break;
+						case C2Point: {
+							const inpX = document.createElement("input")
+							inpX.type = "number"
+							inpX.addEventListener("input", function() {
+								obj[k].x = parseFloat(inpX.value)
+							})
+							inpX.value = v.x
+							wrapper.append(inpX)
+							const inpY = document.createElement("input")
+							inpY.type = "number"
+							inpY.addEventListener("input", function() {
+								obj[k].y = parseFloat(inpY.value)
+							})
+							inpY.value = v.y
+							wrapper.append(inpY)
 						} break;
 						default: {
 							const inp = document.createElement("button")

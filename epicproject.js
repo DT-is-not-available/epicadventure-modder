@@ -18,23 +18,36 @@ class C2NameOf {
     }
 }
 
+class C2Name extends String {}
+
+class C2Point {
+    constructor(x, y) {
+        this.x = x
+        this.y = y
+    }
+}
+
 class C2Project {
     #sids
-    constructor(data) {
+    #path
+    #annotations
+    constructor(data, path) {
+        this.#path = path || data.path
+        this.#annotations = data.annotations || {}
         this.#sids = []
         this.name = data.project[0]
         this.plugins = C2List.from(data.project[2], m => new C2Plugin(m, this))
         this.objects = C2List.from(data.project[3], m => new C2Object(m, this))
         this.families = C2List.from(data.project[4], m => new C2Family(m, this))
         this.layouts = C2List.from(data.project[5])
-        this.startingLayout = new C2NameOf(this.layouts, data.project[1])
+        // this.startingLayout = new C2NameOf(this.layouts, data.project[1])
+        this.startingLayout = data.project[1]
         this.eventSheets = C2List.from(data.project[6])
         this.soundsToPreload = C2List.from(data.project[7])
         this.mediaPath = data.project[8]
         this.pixelRounding = data.project[9]
-        this.viewportWidth = data.project[10]
-        this.viewportHeight = data.project[11]
-        this.fullscreenScaling = data.project[12]
+        this.viewportSize = new C2Point(data.project[10], data.project[11])
+        this.fullscreenInBrowser = new C2IndexOf(["Off", "Crop", "Scale inner", "Scale outer", "Letterbox scale", "Integer letterbox scale"], data.project[12])
         this.enableWebGL = data.project[13]
         this.linearSampling = data.project[14]
         this.clearBackground = data.project[15]
@@ -52,18 +65,62 @@ class C2Project {
         this.frontToBackRenderer = new C2IndexOf(["Disabled", "Enabled"], data.project[27])
         this.containers = C2List.from(data.project[28])
     }
+    resolve(url) {
+        return this.#path.replace(/data\.js(?:on)?$/, url)
+    }
     addSID(v) {
         this.#sids.push(v)
     }
+    static flattenAll(o) {
+        const r = []
+        for (let i = 0; i < o.length; i++) {
+            let e = o[i]
+            if (e != null && e.flatten) {
+                e = e.flatten()
+            }
+            if (Array.isArray(e)) {
+                r.push(C2Project.flattenAll(e))
+            } else {
+                r.push(e)
+            }
+        }
+        return r
+    }
     flatten() {
         return {
-            annotations: this.annotations,
-            project: [
-                this.name, this.startingLayout.flatten(), this.plugins.flatten(),
-                this.objects.flatten(), this.families.flatten(),
-                this.layouts.flatten(), this.eventSheets.flatten(),
-                this.soundsToPreload.flatten(), 
-            ]
+            annotations: this.#annotations,
+            project: C2Project.flattenAll([
+                this.name,
+                this.startingLayout,
+                this.plugins,
+                this.objects,
+                this.families,
+                this.layouts,
+                this.eventSheets,
+                this.soundsToPreload,
+                this.mediaPath,
+                this.pixelRounding,
+                this.viewportSize.x,
+                this.viewportSize.y,
+                this.fullscreenInBrowser,
+                this.enableWebGL,
+                this.linearSampling,
+                this.clearBackground,
+                this.version,
+                this.useHighDpi,
+                this.usesLoaderLayout,
+                this.loaderStyle,
+                this.orientations,
+                this.nextUID,
+                this.pauseOnBlur,
+                this.highQualityFullscreenScaling,
+                this.downscalingQuality,
+                this.preloadSounds,
+                this.projectName,
+                this.frontToBackRenderer,
+                this.containers
+            ]),
+            path: this.#path
         }
     }
     generateSID() {
@@ -80,7 +137,9 @@ class C2List extends Array {
     flatten() {
         let ret = []
         for (let i = 0; i < this.length; i++) {
-            ret.push(this[i].flatten())
+            let el = this[i]
+            if (el != null && Object.hasOwn(el, "flatten")) el = el.flatten()
+            ret.push(el)
         }
         return ret
     }
@@ -136,6 +195,9 @@ class C2Object {
         this.isFamily = m[2]
         this.instanceVarSIDs = m[3]
         this.texture = m[6]
+        if (this.texture) {
+            this.texture = new C2Texture(this.texture, project)
+        }
         this.animations = m[7]
         this.behaviors = m[8]
         this.isGlobal = m[9]
@@ -143,13 +205,15 @@ class C2Object {
         this.SID = m[11]
         this.effects = m[12]
         this.tilePolyData = m[13]
+        this.globalProperties = m[14]
         project.addSID(this.SID)
+        this.instanceVarSIDs.forEach(e=>project.addSID(e))
     }
     toString() {
         return "Object: "+this.name
     }
     flatten() {
-        return [
+        const obj = [
             this.name,
             this.plugin,
             this.isFamily,
@@ -163,8 +227,26 @@ class C2Object {
             this.isOnLoaderLayout,
             this.SID,
             this.effects,
-            this.tilePolyData
+            this.tilePolyData,
         ]
+        if (this.globalProperties) obj.push(this.globalProperties)
+        return obj
+    }
+}
+
+class C2Texture {
+    #project
+    constructor(m, project) {
+        this.#project = project
+        this.url = m[0]
+        this.size = m[1]
+        this.format = m[2]
+    }
+    toString() {
+        return "Texture: "+this.url
+    }
+    flatten() {
+        return [this.url, this.size, this.format]
     }
 }
 
@@ -181,16 +263,8 @@ class C2Family {
     }
     flatten() {
         return [
-            this.id,
-            this.singleGlobal,
-            this.isWorld,
-            this.canPosition,
-            this.canResize,
-            this.canRotate,
-            this.hasAppearance,
-            this.hasZOrder,
-            this.hasEffects,
-            this.mustPredraw
+            this.object,
+            ...this.members.flatten()
         ]
     }
 }
